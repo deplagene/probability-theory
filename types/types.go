@@ -15,5 +15,5 @@ type Example struct {
 }
 
 type ProbabilityService interface {
-	Calculate(n, m int) (int, error)
+	Calculate(n, m int) (float64, error)
 }
