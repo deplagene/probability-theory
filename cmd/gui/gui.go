@@ -4,7 +4,6 @@ import (
 	"homework/probability/themes"
 	"homework/probability/types"
 	"image/color"
-	"log"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -35,6 +34,10 @@ func (g *Gui) Run() {
 	title.TextStyle = fyne.TextStyle{Bold: true}
 	title.TextSize = 15
 	title.Alignment = fyne.TextAlignCenter
+
+	welcomeText := widget.NewLabel("Данное приложение содержит справочный материал по дискретной математике. Выберите тему из списка ниже, чтобы изучить теорию, формулы и примеры задач.")
+	welcomeText.Wrapping = fyne.TextWrapWord
+	welcomeText.Alignment = fyne.TextAlignCenter
 
 	combo := widget.NewSelect(types.Themes, func(value string) {
 		themeWindow := a.NewWindow(value)
@@ -107,11 +110,11 @@ func (g *Gui) Run() {
 	})
 	
 	combo.SetSelected("Выберите нужную тему")
-	log.Println(combo.Selected)
 
 	centered := container.NewCenter(combo)
 	content := container.NewVBox(
 		title,
+		welcomeText,
 		layout.NewSpacer(),
 		centered,
 		layout.NewSpacer(),
