@@ -57,6 +57,9 @@ func (g *Gui) Run() {
 			theoryMainText,
 			theoryLabel,
 		)
+		theoryBg := canvas.NewRectangle(color.RGBA{R: 0x2D, G: 0x2D, B: 0x2D, A: 0xFF})
+		theoryBg.CornerRadius = 8
+		theoryBox = container.NewStack(theoryBg, container.NewPadded(theoryBox))
 
 		// Формула
 		formulaMainText := canvas.NewText("Формула:", color.White)
@@ -76,6 +79,9 @@ func (g *Gui) Run() {
 			formulaImage,
 			formulaLabel,
 		)
+		formulaBg := canvas.NewRectangle(color.RGBA{R: 0x2D, G: 0x2D, B: 0x2D, A: 0xFF})
+		formulaBg.CornerRadius = 8
+		formulaBox = container.NewStack(formulaBg, container.NewPadded(formulaBox))
 
 		// Пример
 		exampleMainText := canvas.NewText("Пример:", color.White)
@@ -95,6 +101,9 @@ func (g *Gui) Run() {
 			exampleImage,
 			exampleLabel,
 		)
+		exampleBg := canvas.NewRectangle(color.RGBA{R: 0x2D, G: 0x2D, B: 0x2D, A: 0xFF})
+		exampleBg.CornerRadius = 8
+		exampleBox = container.NewStack(exampleBg, container.NewPadded(exampleBox))
 
 		themeContent := container.NewVBox(
 			theoryBox,
