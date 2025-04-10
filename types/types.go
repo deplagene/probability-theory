@@ -32,7 +32,7 @@ func ThemeSwitcher(theme string) ProbabilityData {
 		return ProbabilityData{
 			Title:              "Множества",
 			Theory:             "Понятие множеств ввел Георг Кантор...",
-			SolutionText:       "Решение для множества: ...", // Здесь добавим решение
+			SolutionText:       "Решение для множества: ...", 
 		}
 
 	case "Элементы теории высказываний":
