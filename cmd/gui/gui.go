@@ -28,7 +28,7 @@ func (g *Gui) Run() {
 	a := app.New()
 	a.Settings().SetTheme(themes.NewCustomTheme())
 
-	w := a.NewWindow("Deplagene | Дискретная математика")
+	w := a.NewWindow("Дискретная математика")
 	w.Resize(fyne.NewSize(800, 600))
 	w.CenterOnScreen()
 

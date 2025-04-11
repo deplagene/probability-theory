@@ -9,8 +9,7 @@ import (
 	"fyne.io/fyne/theme"
 )
 
-// todo: добавить иконки
-func themeIconsMustLoad(path string) fyne.Resource {
+func ThemeIconsMustLoad(path string) fyne.Resource {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		log.Println("Icon load error:", err)
