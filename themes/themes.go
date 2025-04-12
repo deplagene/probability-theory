@@ -77,7 +77,7 @@ func (t *customTheme) Color(name fyne.ThemeColorName, variant fyne.ThemeVariant)
 	case theme.ColorNameForeground:
 		return color.RGBA{R: 0xE0, G: 0xE0, B: 0xE0, A: 0xFF} // Светлый текст (#E0E0E0)
 	case theme.ColorNameButton:
-		return color.RGBA{R: 0xBB, G: 0x86, B: 0xFC, A: 0xFF} // Светло-фиолетовый для кнопок (#BB86FC)
+		return color.RGBA{R: 0x80, G: 0x80, B: 0x80, A: 0xFF} // Серый для кнопок (#808080)
 	case theme.ColorNamePlaceHolder:
 		return color.RGBA{R: 0x80, G: 0x80, B: 0x80, A: 0xFF} // Серый для placeholder (#808080)
 	case theme.ColorNameShadow:
