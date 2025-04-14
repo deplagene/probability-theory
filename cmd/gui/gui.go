@@ -77,15 +77,16 @@ func (g *Gui) Run() {
 			widget.NewLabel(data.FormulaDescription),
 		))
 		
-		example := section("Пример", container.NewVBox(
-			func() fyne.CanvasObject {
-				img := canvas.NewImageFromFile(data.ExampleImage)
-				img.FillMode = canvas.ImageFillContain
-				img.SetMinSize(fyne.NewSize(400, 250))
-				return img
-			}(),
-			widget.NewLabel(data.ExampleText),
-		))
+		taskContent := container.NewVBox()
+		if data.TaskImage != "" {
+			taskImg := canvas.NewImageFromFile(data.TaskImage)
+			taskImg.FillMode = canvas.ImageFillContain
+			taskImg.SetMinSize(fyne.NewSize(400, 250))
+			taskContent.Add(container.NewCenter(taskImg))
+		}
+		taskContent.Add(widget.NewLabel(data.ExampleText))
+		
+		example := section("Пример", taskContent)
 		
 		buttons := container.NewHBox(
 			widget.NewButton("Решение", func() {
