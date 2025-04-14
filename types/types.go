@@ -162,7 +162,7 @@ func ThemeSwitcher(theme string) ProbabilityData {
 		return ProbabilityData{
 			Title:              "Теория графов",
 			Theory:             "Граф - совокупность точек(вершин), некоторые из которых, а может быть и все, могут быть соединены линиями(ребрами).",
-			//ExampleImage: "asserts/images/теория_графов.png",
+			ExampleImage: "asserts/images/теория_графов.png",
 			ExampleText: "В городе есть 7 мостов, соединяющих острова и берега реки следующим образом:\n"+
 			"Остров A соединён с берегами B и C двумя мостами каждый.\n"+
 			"Острова A и D соединены одним мостом.\n"+
