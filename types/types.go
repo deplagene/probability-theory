@@ -1,5 +1,22 @@
 package types
 
+import (
+	"homework/probability/utils"
+
+	"fyne.io/fyne/v2"
+)
+
+var ThemeIcons = map[string]fyne.Resource {
+	"Множества": utils.ThemeIconsMustLoad("asserts/icons/icons8-lock-100.png"),
+	"Элементы теории высказываний": utils.ThemeIconsMustLoad("asserts/icons/icons8-epistemology-64.png"),
+	"Комбинаторика": utils.ThemeIconsMustLoad("asserts/icons/icons8-color-filter-96.png"),
+	"Теория графов": utils.ThemeIconsMustLoad("asserts/icons/icons8-graphs-64.png"),
+	"Изоморфизм графов": utils.ThemeIconsMustLoad("asserts/icons/icons8-graphs-64.png"),
+	"Планарные графы": utils.ThemeIconsMustLoad("asserts/icons/icons8-graphs-64.png"),
+	"Деревья": utils.ThemeIconsMustLoad("asserts/icons/icons8-tree-64.png"),
+	"Алгоритм Дейкстры": utils.ThemeIconsMustLoad("asserts/icons/icons8-algorithm-100.png"),
+}
+
 var Themes = []string{
 	"Множества",
 	"Элементы теории высказываний",
