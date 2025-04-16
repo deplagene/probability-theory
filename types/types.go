@@ -50,7 +50,7 @@ func ThemeSwitcher(theme string) ProbabilityData {
 		return ProbabilityData{
 			Title:              "Множества",
 			Theory:             "Множество — это набор разных (уникальных) объектов, объединённых по какому-то признаку.",
-			ExampleImage: "asserts/images/множества.png",
+			FormulaPath: "asserts/images/множества.png",
 			ExampleText: "В классе 30 учеников. Из них:\n"+
 			"18 занимаются математикой,\n"+
 			"12 — программированием,\n"+
@@ -70,7 +70,7 @@ func ThemeSwitcher(theme string) ProbabilityData {
 			Title:              "Элементы теории высказываний",
 			Theory:             "Высказывание — это утверждение, которое может быть либо истинным, либо ложным.",
 			FormulaDescription: "Основные логические операции:",
-			ExampleImage:       "asserts/images/элементы_теории_выск.png",
+			FormulaPath:       "asserts/images/элементы_теории_выск.png",
 			ExampleText: "Найти все наборы значений A, B, C ∈ {0, 1}, при которых логическое выражение (A ∨ B) → (¬C ∧ A) принимает значение 1 (истина).",
 			Hint: "Порядок выполнения операций:\n"+
 			"1. Скобки,\n"+
@@ -92,7 +92,7 @@ func ThemeSwitcher(theme string) ProbabilityData {
 		return ProbabilityData{
 			Title:              "Комбинаторика",
 			Theory:             "Комбинаторика — это это раздел математики, в котором рассматриваются задачи, связанные с подсчетом количества комбинаций при определенных условиях.",
-			//ExampleImage: "asserts/images/комбинаторика.png",
+			FormulaPath: "asserts/images/комбинаторика.png",
 			ExampleText: "1. Правила суммы и произведения.\n"+
 			"Задача:\n"+
 			"В кафе есть 3 вида пирожных и 5 видов напитков. Сколько вариантов заказа из одного пирожного и одного напитка?\n"+
@@ -162,7 +162,7 @@ func ThemeSwitcher(theme string) ProbabilityData {
 		return ProbabilityData{
 			Title:              "Теория графов",
 			Theory:             "Граф - совокупность точек(вершин), некоторые из которых, а может быть и все, могут быть соединены линиями(ребрами).",
-			ExampleImage: "asserts/images/теория_графов.png",
+			FormulaPath: "asserts/images/теория_графов.png",
 			ExampleText: "В городе есть 7 мостов, соединяющих острова и берега реки следующим образом:\n"+
 			"Остров A соединён с берегами B и C двумя мостами каждый.\n"+
 			"Острова A и D соединены одним мостом.\n"+
@@ -199,7 +199,7 @@ func ThemeSwitcher(theme string) ProbabilityData {
 			"Инцидентность — это отношение между вершиной и ребром, при котором:\n"+
 			"Вершина называется инцидентной ребру, если она является одним из его концов.\n"+
 			"Ребро называется инцидентным вершине, если оно соединяет эту вершину с другой.",
-			ExampleImage: "asserts/images/изоморфные_графы.png",
+			FormulaPath: "asserts/images/изоморфные_графы.png",
 			ExampleText: "Условие:\n"+
 			"Даны два графа G1 и G2. Определите, являются ли они изоморфными. Если да, приведите соответствие вершин.\n"+
 			"\n"+
@@ -256,7 +256,7 @@ func ThemeSwitcher(theme string) ProbabilityData {
 		return ProbabilityData{
 			Title:  "Планарные графы",
 			Theory: "Планарный граф — это такой граф, который можно нарисовать на плоскости без пересечений рёбер.",
-			ExampleImage: "asserts/images/планарный_граф.png",
+			FormulaPath: "asserts/images/планарный_граф.png",
 			ExampleText: "Условие:\n"+
 			"Дан граф G с p=6 вершинами и q=12 рёбрами.\n"+
 			"Вопрос: Можно ли нарисовать его на плоскости без пересечений рёбер?\n"+
@@ -291,7 +291,7 @@ func ThemeSwitcher(theme string) ProbabilityData {
 		return ProbabilityData{
 			Title:        "Деревья",
 			Theory:       "Граф G называется ациклическим или лесом, если в нем нет циклов. Ациклический связный граф называется деревом.",
-			ExampleImage: "asserts/images/деревья-схема 1.png", 
+			FormulaPath: "asserts/images/деревья-схема 1.png", 
 			ExampleText: "Условие:\n"+
 			"Дано дерево с 15 вершинами.\n"+
 			"\n"+
@@ -326,7 +326,7 @@ func ThemeSwitcher(theme string) ProbabilityData {
 		return ProbabilityData{
 			Title:  "Алгоритм Дейкстры",
 			Theory: "Алгоритм Дейкстры используется для нахождения кратчайшего пути от одной вершины до всех остальных в взвешенном графе с неотрицательными весами.",
-			ExampleImage: "asserts/images/Алгоритм_Дейкстры.png",
+			FormulaPath: "asserts/images/Алгоритм_Дейкстры.png",
 			ExampleText: "Условие:\n"+
 			"Дан ориентированный взвешенный граф, изображённый на рисунке.\n"+
 			"Задача: Найдите кратчайшие расстояния от вершины A до всех остальных вершин с помощью алгоритма Дейкстры.\n",
