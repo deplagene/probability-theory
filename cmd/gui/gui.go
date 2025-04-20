@@ -9,6 +9,7 @@ import (
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/data/binding"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 )
@@ -27,148 +28,113 @@ func (g *Gui) Run() {
 	a := app.New()
 	a.Settings().SetTheme(themes.NewCustomTheme())
 
-	w := a.NewWindow("Main")
+	w := a.NewWindow("Дискретная математика")
 	w.Resize(fyne.NewSize(800, 600))
+	w.CenterOnScreen()
 
+	// Заголовок
 	title := canvas.NewText("Дискретная математика", color.White)
 	title.TextStyle = fyne.TextStyle{Bold: true}
-	title.TextSize = 15
+	title.TextSize = 20
 	title.Alignment = fyne.TextAlignCenter
 
-	welcomeText := widget.NewLabel("Данное приложение содержит справочный материал по дискретной математике. Выберите тему из списка ниже, чтобы изучить теорию, формулы и примеры задач.")
-	welcomeText.Wrapping = fyne.TextWrapWord
-	welcomeText.Alignment = fyne.TextAlignCenter
+	// Подзаголовок
+	subtitle := widget.NewLabel("Добро пожаловать! Это справочник по ключевым темам дискретной математики.")
+	subtitle.Wrapping = fyne.TextWrapWord
+	subtitle.Alignment = fyne.TextAlignCenter
 
-	combo := widget.NewSelect(types.Themes, func(value string) {
-		themeWindow := a.NewWindow(value)
-		themeWindow.Resize(fyne.NewSize(600, 400))
+	// Инструкция
+	description := widget.NewLabel("Выберите тему ниже, чтобы изучить теорию, формулы, примеры и решения.")
+	description.Wrapping = fyne.TextWrapWord
+	description.Alignment = fyne.TextAlignCenter
 
-		// Теория
-		themeData := types.ThemeSwitcher(value)
-		theoryLabel := widget.NewLabel(themeData.Theory)
-		theoryLabel.Wrapping = fyne.TextWrapWord
-		theoryLabel.TextStyle = fyne.TextStyle{Italic: true}
+	// Выбрать тему
+	themeSelector := widget.NewSelect(types.Themes, func(value string) {
+		data := types.ThemeSwitcher(value)
+		detail := a.NewWindow(value)
+		detail.Resize(fyne.NewSize(700, 500))
 
-		theoryMainText := canvas.NewText("Теория:", color.White)
-		theoryMainText.TextStyle = fyne.TextStyle{Bold: true}
-		theoryMainText.TextSize = 14 
+		section := func(label string, content fyne.CanvasObject) fyne.CanvasObject {
+			header := canvas.NewText(label, color.White)
+			header.TextStyle = fyne.TextStyle{Bold: true}
+			header.TextSize = 14
 
-		theoryBox := container.NewVBox(
-			theoryMainText,
-			theoryLabel,
+			box := container.NewVBox(header, content)
+			bg := canvas.NewRectangle(color.RGBA{45, 45, 45, 255})
+			bg.CornerRadius = 12
+			return container.NewStack(bg, container.NewPadded(box))
+		}
+
+		theory := section("Теория", widget.NewLabelWithData(binding.BindString(&data.Theory)))
+
+		formula := section("Формула", container.NewVBox(
+			func() fyne.CanvasObject {
+				img := canvas.NewImageFromFile(data.FormulaPath)
+				img.FillMode = canvas.ImageFillContain
+				img.SetMinSize(fyne.NewSize(300, 150))
+				return img
+			}(),
+			widget.NewLabel(data.FormulaDescription),
+		))
+		
+		example := section("Пример", container.NewVBox(
+			func() fyne.CanvasObject {
+				img := canvas.NewImageFromFile(data.ExampleImage)
+				img.FillMode = canvas.ImageFillContain
+				img.SetMinSize(fyne.NewSize(400, 250))
+				return img
+			}(),
+			widget.NewLabel(data.ExampleText),
+		))
+		
+		buttons := container.NewHBox(
+			widget.NewButton("Решение", func() {
+				showWindow(a, "Решение", data.SolutionText)
+			}),
+			widget.NewButton("Подсказка", func() {
+				showWindow(a, "Подсказка", data.Hint)
+			}),
 		)
-		theoryBg := canvas.NewRectangle(color.RGBA{R: 0x2D, G: 0x2D, B: 0x2D, A: 0xFF})
-		theoryBg.CornerRadius = 8
-		theoryBox = container.NewStack(theoryBg, container.NewPadded(theoryBox))
 
-		// Формула
-		formulaMainText := canvas.NewText("Формула:", color.White)
-		formulaMainText.TextStyle = fyne.TextStyle{Bold: true}
-		formulaMainText.TextSize = 14
-
-		formulaImage := canvas.NewImageFromFile(themeData.FormulaPath)
-		formulaImage.FillMode = canvas.ImageFillContain
-		formulaImage.SetMinSize(fyne.NewSize(200, 100))
-
-		formulaLabel := widget.NewLabel(themeData.FormulaDescription)
-		formulaLabel.Wrapping = fyne.TextWrapWord
-		formulaLabel.TextStyle = fyne.TextStyle{Italic: true}
-
-		formulaBox := container.NewVBox(
-			formulaMainText,
-			formulaImage,
-			formulaLabel,
-		)
-		formulaBg := canvas.NewRectangle(color.RGBA{R: 0x2D, G: 0x2D, B: 0x2D, A: 0xFF})
-		formulaBg.CornerRadius = 8
-		formulaBox = container.NewStack(formulaBg, container.NewPadded(formulaBox))
-
-		// Пример
-		exampleText := canvas.NewText("Пример:", color.White)
-		exampleText.TextStyle = fyne.TextStyle{Bold: true}
-		exampleText.TextSize = 14
-
-		exampleImage := canvas.NewImageFromFile(themeData.ExampleImage)
-		exampleImage.FillMode = canvas.ImageFillContain
-		exampleImage.SetMinSize(fyne.NewSize(400, 300))
-
-		exampleLabel := widget.NewLabel(themeData.ExampleText)
-		exampleLabel.Wrapping = fyne.TextWrapWord
-		exampleLabel.TextStyle = fyne.TextStyle{Italic: true}
-
-		exampleBox := container.NewVBox(
-			exampleText,
-			exampleImage,
-			exampleLabel,
-		)
-		exampleBg := canvas.NewRectangle(color.RGBA{R: 0x2D, G: 0x2D, B: 0x2D, A: 0xFF})
-		exampleBg.CornerRadius = 8
-		exampleBox = container.NewStack(exampleBg, container.NewPadded(exampleBox))
-
-		// Решения
-		solutionButton := widget.NewButton("Показать решение", func() {
-			solutionWindow := a.NewWindow("Решение")
-			solutionWindow.Resize(fyne.NewSize(400, 300))
-
-			solutionText := widget.NewLabel(themeData.SolutionText)
-			solutionText.Wrapping = fyne.TextWrapWord
-			solutionText.TextStyle = fyne.TextStyle{Italic: true}
-
-			solutionBox := container.NewVBox(solutionText)
-			solutionBg := canvas.NewRectangle(color.RGBA{R: 0x2D, G: 0x2D, B: 0x2D, A: 0xFF})
-			solutionBg.CornerRadius = 8
-			solutionBox = container.NewStack(solutionBg, container.NewPadded(solutionBox))
-
-			solutionWindow.SetContent(solutionBox)
-			solutionWindow.Show()
-		})
-
-		// Подзказки
-		hintBut := widget.NewButton("Показать подсказку", func() {
-
-			hintWindow := a.NewWindow("Подсказка")
-			hintWindow.Resize(fyne.NewSize(400, 300))
-
-			hintText := widget.NewLabel(themeData.Hint)
-			hintText.Wrapping = fyne.TextWrapWord
-			hintText.TextStyle = fyne.TextStyle{Italic: true}
-
-			hintBox := container.NewVBox(hintText)
-			hintBg := canvas.NewRectangle(color.RGBA{R: 0x2D, G: 0x2D, B: 0x2D, A: 0xFF})
-			hintBg.CornerRadius = 8
-			hintBox = container.NewStack(hintBg, container.NewPadded(hintBox))
-
-			hintWindow.SetContent(hintBox)
-			hintWindow.Show()
-		})
-
-		themeContent := container.NewVBox(
-			theoryBox,
-			layout.NewSpacer(),
-			formulaBox,
-			layout.NewSpacer(),
-			exampleBox,
-			layout.NewSpacer(),
-			solutionButton, 
-			hintBut,  
-		)
-		themeContent = container.NewBorder(nil, nil, nil, nil, themeContent)
-
-		themeWindow.SetContent(themeContent)
-		themeWindow.Show()
+		content := container.NewVBox(theory, formula, example, buttons)
+		scroll := container.NewVScroll(content)
+		detail.SetContent(scroll)
+		detail.Show()
 	})
 
-	combo.SetSelected("Выберите нужную тему")
-
-	centered := container.NewCenter(combo)
-	content := container.NewVBox(
-		title,
-		welcomeText,
+	themeSelector.PlaceHolder = "Выберите тему"
+	form := container.NewVBox(
 		layout.NewSpacer(),
-		centered,
+		title,
+		layout.NewSpacer(),
+		subtitle,
+		description,
+		layout.NewSpacer(),
+		container.NewCenter(themeSelector),
 		layout.NewSpacer(),
 	)
 
-	w.SetContent(content)
+	// Фон
+	bg := canvas.NewRectangle(color.RGBA{R: 36, G: 36, B: 36, A: 255})
+	formBox := container.NewStack(bg, container.NewPadded(form))
+
+
+	w.SetContent(formBox)
 	w.ShowAndRun()
+}
+
+func showWindow(a fyne.App, title, text string) {
+	win := a.NewWindow(title)
+	win.Resize(fyne.NewSize(400, 300))
+
+	label := widget.NewLabel(text)
+	label.Wrapping = fyne.TextWrapWord
+	label.TextStyle = fyne.TextStyle{Italic: true}
+
+	box := container.NewVBox(label)
+	bg := canvas.NewRectangle(color.RGBA{45, 45, 45, 255})
+	bg.CornerRadius = 12
+
+	win.SetContent(container.NewStack(bg, container.NewPadded(box)))
+	win.Show()
 }
