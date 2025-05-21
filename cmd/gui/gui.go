@@ -32,24 +32,25 @@ func (g *Gui) Run() {
 	w.Resize(fyne.NewSize(800, 600))
 	w.CenterOnScreen()
 
-	// Заголовок
 	title := canvas.NewText("Дискретная математика", color.White)
 	title.TextStyle = fyne.TextStyle{Bold: true}
 	title.TextSize = 20
 	title.Alignment = fyne.TextAlignCenter
 
-	// Подзаголовок
 	subtitle := widget.NewLabel("Добро пожаловать! Это справочник по ключевым темам дискретной математики.")
 	subtitle.Wrapping = fyne.TextWrapWord
 	subtitle.Alignment = fyne.TextAlignCenter
 
-	// Инструкция
 	description := widget.NewLabel("Выберите тему ниже, чтобы изучить теорию, формулы, примеры и решения.")
 	description.Wrapping = fyne.TextWrapWord
 	description.Alignment = fyne.TextAlignCenter
 
-	// Выбрать тему
 	themeSelector := widget.NewSelect(types.Themes, func(value string) {
+		if value == "Решатор задач" {
+			reshator(a)
+			return
+		}
+
 		data := types.ThemeSwitcher(value)
 		detail := a.NewWindow(value)
 		detail.Resize(fyne.NewSize(700, 500))
@@ -69,6 +70,9 @@ func (g *Gui) Run() {
 
 		formula := section("Формула", container.NewVBox(
 			func() fyne.CanvasObject {
+				if data.FormulaPath == "" {
+					return widget.NewLabel("")
+				}
 				img := canvas.NewImageFromFile(data.FormulaPath)
 				img.FillMode = canvas.ImageFillContain
 				img.SetMinSize(fyne.NewSize(300, 150))
@@ -90,10 +94,10 @@ func (g *Gui) Run() {
 		
 		buttons := container.NewHBox(
 			widget.NewButton("Решение", func() {
-				showWindow(a, "Решение", data.SolutionText)
+				ShowSolutionWindow(a, "Решение", data.SolutionText, data.Hint)
 			}),
 			widget.NewButton("Подсказка", func() {
-				showWindow(a, "Подсказка", data.Hint)
+				ShowWindow(a, "Подсказка", data.Hint)
 			}),
 		)
 
@@ -115,16 +119,14 @@ func (g *Gui) Run() {
 		layout.NewSpacer(),
 	)
 
-	// Фон
 	bg := canvas.NewRectangle(color.RGBA{R: 36, G: 36, B: 36, A: 255})
 	formBox := container.NewStack(bg, container.NewPadded(form))
-
 
 	w.SetContent(formBox)
 	w.ShowAndRun()
 }
 
-func showWindow(a fyne.App, title, text string) {
+func ShowWindow(a fyne.App, title, text string) {
 	win := a.NewWindow(title)
 	win.Resize(fyne.NewSize(400, 300))
 
@@ -137,5 +139,30 @@ func showWindow(a fyne.App, title, text string) {
 	bg.CornerRadius = 12
 
 	win.SetContent(container.NewStack(bg, container.NewPadded(box)))
+	win.Show()
+}
+
+func ShowSolutionWindow(a fyne.App, title, solution, hint string) {
+	win := a.NewWindow(title)
+	win.Resize(fyne.NewSize(500, 400))
+
+	answerLabel := widget.NewLabel(solution)
+	answerLabel.TextStyle = fyne.TextStyle{Bold: true}
+	
+	explanationLabel := widget.NewLabel(hint)
+	explanationLabel.Wrapping = fyne.TextWrapWord
+
+	content := container.NewVBox(
+		widget.NewLabel("Ответ:"),
+		answerLabel,
+		widget.NewSeparator(),
+		widget.NewLabel("Пояснение:"),
+		explanationLabel,
+	)
+	
+	bg := canvas.NewRectangle(color.RGBA{45, 45, 45, 255})
+	bg.CornerRadius = 12
+	
+	win.SetContent(container.NewStack(bg, container.NewPadded(content)))
 	win.Show()
 }
